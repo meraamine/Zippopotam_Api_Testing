@@ -5,7 +5,7 @@ This project is a Java-based API automation framework for testing the Zippopotam
 
 The project focuses on validating valid and invalid postal code requests, response status codes, response structure, and returned data.
 
-The goal is to demonstrate a simple, clean, and maintainable API automation approach suitable for a junior-level automation testing project.
+The goal is to demonstrate a simple, clean, and maintainable API automation approach suitable for automation testing project.
 
 Technologies :
 
