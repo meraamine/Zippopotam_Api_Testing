@@ -8,11 +8,17 @@ The project focuses on validating valid and invalid postal code requests, respon
 The goal is to demonstrate a simple, clean, and maintainable API automation approach suitable for a junior-level automation testing project.
 
 Technologies
+
 Java 21
+
 Rest Assured 5.5.6
+
 TestNG
+
 Maven
+
 IntelliJ IDEA
+
 API Under Test
 
 Base URL:
