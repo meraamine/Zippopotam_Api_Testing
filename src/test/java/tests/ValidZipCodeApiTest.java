@@ -4,7 +4,6 @@ import base.BaseTest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utils.TestData;
 
@@ -13,138 +12,92 @@ import java.util.Map;
 
 public class ValidZipCodeApiTest extends BaseTest {
 
-    private TestData testData;
+    private Response getValidPostalCodeResponse() {
 
-    @BeforeClass
-    public void prepareTestData() {
-        testData = new TestData();
+        return RestAssured.given()
+                .baseUri(baseUrl)
+                .pathParam("country", TestData.VALID_COUNTRY)
+                .pathParam("postalCode", TestData.VALID_POSTAL_CODE)
+                .when()
+                .get("/{country}/{postalCode}");
     }
 
     @Test
-    public void verifyValidPostalCodeRequest() {
+    public void verifyValidPostalCodeResponse() {
 
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
-
-        Assert.assertEquals(response.getStatusCode(), 200);
-    }
-
-    @Test
-    public void verifyResponseCountry() {
-
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
-
-        Map<String, Object> responseBody =
-                response.jsonPath().getMap("");
-
-        String countryAbbreviation =
-                responseBody.get("country abbreviation").toString();
-
-        Assert.assertEquals(countryAbbreviation, "US");
-    }
-
-    @Test
-    public void verifyResponsePostalCode() {
-
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
-
-        Map<String, Object> responseBody =
-                response.jsonPath().getMap("");
-
-        String postalCode =
-                responseBody.get("post code").toString();
+        Response response = getValidPostalCodeResponse();
 
         Assert.assertEquals(
-                postalCode,
-                testData.getValidPostalCode()
+                response.getStatusCode(),
+                200,
+                "Expected status code to be 200"
+        );
+
+        Assert.assertTrue(
+                response.getContentType().contains("application/json"),
+                "Expected response content type to be JSON"
+        );
+
+        Map<String, Object> responseBody =
+                response.jsonPath().getMap("");
+
+        Assert.assertNotNull(
+                responseBody.get("post code"),
+                "Post code should exist in response"
+        );
+
+        Assert.assertEquals(
+                responseBody.get("post code").toString(),
+                TestData.VALID_POSTAL_CODE,
+                "Returned postal code is incorrect"
+        );
+
+        Assert.assertNotNull(
+                responseBody.get("country"),
+                "Country should exist in response"
+        );
+
+        Assert.assertEquals(
+                responseBody.get("country abbreviation").toString(),
+                "US",
+                "Country abbreviation is incorrect"
+        );
+
+        Assert.assertNotNull(
+                responseBody.get("places"),
+                "Places should exist in response"
         );
     }
 
     @Test
-    public void verifyPlacesExistInResponse() {
+    public void verifyPlacesInResponse() {
 
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
+        Response response = getValidPostalCodeResponse();
 
         List<Map<String, Object>> places =
                 response.jsonPath().getList("places");
 
-        Assert.assertNotNull(places);
-    }
+        Assert.assertNotNull(
+                places,
+                "Places list should not be null"
+        );
 
-    @Test
-    public void verifyPlacesAreNotEmpty() {
+        Assert.assertFalse(
+                places.isEmpty(),
+                "Places list should not be empty"
+        );
 
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
+        Object placeName =
+                places.getFirst().get("place name");
 
-        List<Map<String, Object>> places =
-                response.jsonPath().getList("places");
+        Assert.assertNotNull(
+                placeName,
+                "Place name should exist"
+        );
 
-        Assert.assertFalse(places.isEmpty());
-    }
-
-    @Test
-    public void verifyPlaceNameExists() {
-
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
-
-        List<Map<String, Object>> places =
-                response.jsonPath().getList("places");
-
-        String placeName =
-                places.getFirst().get("place name").toString();
-
-        Assert.assertNotNull(placeName);
-        Assert.assertFalse(placeName.isEmpty());
-    }
-
-    @Test
-    public void verifyResponseContentType() {
-
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
-
-        Assert.assertTrue(
-                response.getContentType().contains("application/json")
+        Assert.assertFalse(
+                placeName.toString().isBlank(),
+                "Place name should not be empty"
         );
     }
 }

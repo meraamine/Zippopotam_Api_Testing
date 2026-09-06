@@ -4,86 +4,96 @@ import base.BaseTest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utils.TestData;
 
 public class InvalidZipCodeApiTest extends BaseTest {
 
-    private TestData testData;
+    private Response getResponse(String country, String postalCode) {
 
-    @BeforeClass
-    public void prepareTestData() {
-        testData = new TestData();
+        return RestAssured.given()
+                .baseUri(baseUrl)
+                .pathParam("country", country)
+                .pathParam("postalCode", postalCode)
+                .when()
+                .get("/{country}/{postalCode}");
     }
 
     @Test
     public void verifyInvalidCountry() {
 
         Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getInvalidCountry())
-                        .pathParam("postalCode", testData.getValidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
+                getResponse(
+                        TestData.INVALID_COUNTRY,
+                        TestData.VALID_POSTAL_CODE
+                );
 
-        Assert.assertEquals(response.getStatusCode(), 404);
+        Assert.assertEquals(
+                response.getStatusCode(),
+                404,
+                "Expected 404 for invalid country"
+        );
     }
 
     @Test
     public void verifyInvalidPostalCode() {
 
         Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getValidCountry())
-                        .pathParam("postalCode", testData.getInvalidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
+                getResponse(
+                        TestData.VALID_COUNTRY,
+                        TestData.INVALID_POSTAL_CODE
+                );
 
-        Assert.assertEquals(response.getStatusCode(), 404);
+        Assert.assertEquals(
+                response.getStatusCode(),
+                404,
+                "Expected 404 for invalid postal code"
+        );
     }
 
     @Test
     public void verifyInvalidCountryAndPostalCode() {
 
         Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .pathParam("country", testData.getInvalidCountry())
-                        .pathParam("postalCode", testData.getInvalidPostalCode())
-                        .when()
-                        .get("/{country}/{postalCode}");
+                getResponse(
+                        TestData.INVALID_COUNTRY,
+                        TestData.INVALID_POSTAL_CODE
+                );
 
-        Assert.assertEquals(response.getStatusCode(), 404);
-    }
-
-    @Test
-    public void verifyEmptyCountry() {
-
-        Response response =
-                RestAssured.given()
-                        .baseUri(baseUrl)
-                        .when()
-                        .get("//90210");
-
-        Assert.assertTrue(
-                response.getStatusCode() >= 400
+        Assert.assertEquals(
+                response.getStatusCode(),
+                404,
+                "Expected 404 for invalid country and postal code"
         );
     }
 
     @Test
-    public void verifyEmptyPostalCode() {
+    public void verifyMissingCountry() {
 
         Response response =
                 RestAssured.given()
                         .baseUri(baseUrl)
                         .when()
-                        .get("/us/");
+                        .get("/90210");
 
         Assert.assertTrue(
-                response.getStatusCode() >= 400
+                response.getStatusCode() >= 400,
+                "Expected client error for missing country"
+        );
+    }
+
+    @Test
+    public void verifyMissingPostalCode() {
+
+        Response response =
+                RestAssured.given()
+                        .baseUri(baseUrl)
+                        .when()
+                        .get("/us");
+
+        Assert.assertTrue(
+                response.getStatusCode() >= 400,
+                "Expected client error for missing postal code"
         );
     }
 }

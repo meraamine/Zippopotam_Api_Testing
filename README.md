@@ -1,305 +1,174 @@
-# Zippopotam API Automation
+Zippopotam API Automation
+Overview
 
-A simple API automation framework developed as part of a coding exercise.
+This project is a Java-based API automation framework for testing the Zippopotam.us API using Rest Assured and TestNG.
 
-The project automates the Zippopotam.us Postal Code API using Java, Rest Assured, TestNG, and Maven.
+The project focuses on validating valid and invalid postal code requests, response status codes, response structure, and returned data.
 
-The main objective is to validate the API behavior for valid and invalid country and postal code inputs.
+The goal is to demonstrate a simple, clean, and maintainable API automation approach suitable for a junior-level automation testing project.
 
----
+Technologies
+Java 21
+Rest Assured 5.5.6
+TestNG
+Maven
+IntelliJ IDEA
+API Under Test
 
-## Technologies
+Base URL:
 
-* Java 21
-* Rest Assured 5.5.6
-* TestNG 7.11.0
-* Maven
-* IntelliJ IDEA
+https://api.zippopotam.us
 
----
+Endpoint:
 
-## API Under Test
-
-**Base URL:**
-
-`https://api.zippopotam.us`
-
-**Endpoint:**
-
-`GET /{country}/{postal-code}`
-
-### Example
-
-`GET https://api.zippopotam.us/us/90210`
-
-### Parameters
-
-| Parameter   | Description                        | Example |
-| ----------- | ---------------------------------- | ------- |
-| Country     | Country code                       | `us`    |
-| Postal Code | Postal code for the requested area | `90210` |
-
----
-
-## Project Structure
-
-```text
-Zippopotam_Api_Testing
-│
-├── pom.xml
-├── README.md
-│
-└── src
-    └── test
-        └── java
-            │
-            ├── base
-            │   └── BaseTest.java
-            │
-            ├── tests
-            │   ├── ValidZipCodeApiTest.java
-            │   └── InvalidZipCodeApiTest.java
-            │
-            └── utils
-                └── TestData.java
-```
-
----
-
-## Framework Structure
-
-### BaseTest
-
-`BaseTest` contains the common API configuration used by the test classes.
-
-The base URL is defined once in the base class and reused by the test classes.
-
-This avoids repeating the API base URL in every test.
-
-### TestData
-
-`TestData` contains the test data used by the automation tests.
-
-The data is encapsulated using private variables and getter methods.
-
-Examples:
-
-* Valid country: `us`
-* Valid postal code: `90210`
-* Invalid country: `xx`
-* Invalid postal code: `00000`
-
-No static test data is used.
-
-### ValidZipCodeApiTest
-
-Contains positive test scenarios using valid country and postal code values.
-
-### InvalidZipCodeApiTest
-
-Contains negative test scenarios using invalid or empty input values.
-
----
-
-# Test Coverage
-
-The automation suite contains **12 test cases** covering positive and negative scenarios.
-
-## Valid Test Cases
-
-### TC01 - Verify Valid Postal Code Request
-
-**Test:** Send a request using a valid country and valid postal code.
-
-**Expected Result:** HTTP status code should be `200 OK`.
-
----
-
-### TC02 - Verify Response Country
-
-**Test:** Verify that the response contains the expected country abbreviation.
-
-**Expected Result:** Country abbreviation should be `US`.
-
----
-
-### TC03 - Verify Response Postal Code
-
-**Test:** Verify that the returned postal code matches the requested postal code.
-
-**Expected Result:** Returned postal code should be `90210`.
-
----
-
-### TC04 - Verify Places Exist In Response
-
-**Test:** Verify that the `places` field exists in the response.
-
-**Expected Result:** The `places` list should not be null.
-
----
-
-### TC05 - Verify Places Are Not Empty
-
-**Test:** Verify that the `places` list contains at least one place.
-
-**Expected Result:** The `places` list should not be empty.
-
----
-
-### TC06 - Verify Place Name Exists
-
-**Test:** Verify that the first returned place contains a place name.
-
-**Expected Result:** The place name should not be null or empty.
-
----
-
-### TC07 - Verify Response Content Type
-
-**Test:** Verify that the API returns a JSON response.
-
-**Expected Result:** Response content type should contain `application/json`.
-
----
-
-# Invalid Test Cases
-
-### TC08 - Verify Invalid Country
-
-**Test:** Send a request using an invalid country code.
-
-**Expected Result:** HTTP status code should be `404`.
-
----
-
-### TC09 - Verify Invalid Postal Code
-
-**Test:** Send a request using a valid country and an invalid postal code.
-
-**Expected Result:** HTTP status code should be `404`.
-
----
-
-### TC10 - Verify Invalid Country And Postal Code
-
-**Test:** Send a request using both an invalid country and an invalid postal code.
-
-**Expected Result:** HTTP status code should be `404`.
-
----
-
-### TC11 - Verify Empty Country
-
-**Test:** Send a request without providing a country code.
-
-**Expected Result:** The API should return an HTTP error response.
-
----
-
-### TC12 - Verify Empty Postal Code
-
-**Test:** Send a request without providing a postal code.
-
-**Expected Result:** The API should return an HTTP error response.
-
----
-
-# How to Run
-
-## Prerequisites
-
-Make sure the following are installed:
-
-* Java JDK 21
-* Maven
-* IntelliJ IDEA
-* Internet connection
-
----
-
-## Run Tests Using IntelliJ IDEA
-
-Open the project in IntelliJ IDEA.
-
-The tests can be executed individually:
-
-* `ValidZipCodeApiTest`
-* `InvalidZipCodeApiTest`
-
-Or the complete test suite can be executed from the `tests` package.
-
----
-
-## Run Tests Using Maven
-
-Open a terminal in the project root directory and run:
-
-```bash
-mvn clean test
-```
-
-The command will clean the previous build, compile the project, and execute the TestNG tests.
-
----
-
-# Expected Result
-
-All automated tests should pass when the API behaves according to the expected scenarios.
+GET /{country}/{postal-code}
 
 Example:
 
-```text
-Total tests run: 12
-Passes: 12
+GET https://api.zippopotam.us/us/90210
+Project Structure
+src
+└── test
+└── java
+├── base
+│   └── BaseTest.java
+│
+├── tests
+│   ├── ValidZipCodeApiTest.java
+│   └── InvalidZipCodeApiTest.java
+│
+└── utils
+└── TestData.java
+Framework Structure
+BaseTest
+
+BaseTest contains the common API configuration used by the test classes.
+
+The base URL is defined once and reused by the tests.
+
+TestData
+
+TestData contains the test data used by the test cases, including valid and invalid country and postal code values.
+
+ValidZipCodeApiTest
+
+Contains positive test scenarios for a valid country and postal code.
+
+The tests verify:
+
+HTTP status code
+Response content type
+Postal code returned in the response
+Country information
+Country abbreviation
+Presence of the places field
+Places list is not empty
+Place name exists and is not empty
+InvalidZipCodeApiTest
+
+Contains negative test scenarios for invalid and missing input values.
+
+The tests cover:
+
+Invalid country
+Invalid postal code
+Invalid country and postal code
+Missing country
+Missing postal code
+Test Coverage
+
+The project currently contains 7 test cases.
+
+Valid Scenarios
+
+TC01 - Verify valid postal code response
+
+Send a valid country and postal code.
+Verify status code is 200.
+Verify the response is JSON.
+Verify required response fields and returned postal code.
+
+TC02 - Verify places in response
+
+Verify the places list exists.
+Verify the list is not empty.
+Verify a place name exists and is not empty.
+Invalid Scenarios
+
+TC03 - Verify invalid country
+
+Send an invalid country code with a valid postal code.
+Expected status code: 404.
+
+TC04 - Verify invalid postal code
+
+Send a valid country with an invalid postal code.
+Expected status code: 404.
+
+TC05 - Verify invalid country and postal code
+
+Send both invalid country and postal code.
+Expected status code: 404.
+
+TC06 - Verify missing country
+
+Send a request without the country path parameter.
+Verify that the API returns a client error (4xx).
+
+TC07 - Verify missing postal code
+
+Send a request without the postal code path parameter.
+Verify that the API returns a client error (4xx).
+How to Run
+
+Make sure Java and Maven are installed and configured.
+
+From the project root directory, run:
+
+mvn clean test
+
+Maven will compile the project and execute all TestNG tests.
+
+Design Decisions
+
+The framework was intentionally kept simple and readable.
+
+1. Separate Valid and Invalid Tests
+
+Positive and negative scenarios are separated into different test classes to make the test suite easier to understand and maintain.
+
+2. Reusable Base URL
+
+The API base URL is defined once in BaseTest and reused by the test classes.
+
+3. Centralized Test Data
+
+Test data is stored in TestData instead of being repeated throughout the test methods.
+
+4. Reusable Request Methods
+
+Common API request logic is placed inside helper methods to reduce code duplication while keeping the framework easy to understand.
+
+5. Assertions
+
+TestNG assertions are used to validate both the API response status and important response data.
+
+6. No Postman
+
+The API tests are implemented directly in Java using Rest Assured, as required by the technical task.
+
+Expected Result
+
+When all tests pass successfully:
+
+Tests run: 7
 Failures: 0
-Skips: 0
-```
+Errors: 0
 
----
+The exact Maven/TestNG output may vary depending on the environment.
 
-# Testing Approach
-
-The tests are divided into two categories:
-
-### Positive Testing
-
-Valid country and postal code values are used to verify that the API returns the expected data and status code.
-
-### Negative Testing
-
-Invalid and empty input values are used to verify that the API handles incorrect requests properly.
-
-The tests also validate important parts of the response, including:
-
-* HTTP status code
-* Country abbreviation
-* Postal code
-* Places list
-* Place name
-* Response content type
-
----
-
-# Design Decisions
-
-The framework is intentionally kept simple and easy to maintain because this project is designed for a junior-level coding assessment.
-
-The project uses:
-
-* A base test class for common configuration.
-* A separate test data class.
-* Separate classes for valid and invalid scenarios.
-* Rest Assured for API requests and response validation.
-* TestNG for test execution and assertions.
-* Maven for dependency management and test execution.
-
-No Postman was used because the exercise specifically requires API automation using code.
-
----
-
-# Conclusion
+Conclusion
 
 This project demonstrates a basic API automation framework using Java, Rest Assured, TestNG, and Maven.
 
-The automation covers both positive and negative scenarios for the Zippopotam.us postal code endpoint while keeping the framework simple, readable, and maintainable.
+The framework focuses on readability, reusable components, clear test scenarios, and meaningful assertions without unnecessary complexity.
