@@ -30,17 +30,29 @@ GET https://api.zippopotam.us/us/90210
 Project Structure
 
 src
-└── test
-└── java
-├── base
-│   └── BaseTest.java
-│
-├── tests
-│   ├── ValidZipCodeApiTest.java
-│   └── InvalidZipCodeApiTest.java
-│
-└── utils
-└── TestData.java
+
+ └── test
+ 
+ └── java
+ 
+ ├── base
+ 
+ │   └── BaseTest.java
+
+ 
+ │
+ 
+ ├── tests
+ 
+ │   ├── ValidZipCodeApiTest.java
+ 
+ │   └── InvalidZipCodeApiTest.java
+
+ │
+ 
+ └── utils
+
+ └── TestData.java
 
 Framework Structure
 BaseTest
