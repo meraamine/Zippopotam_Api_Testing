@@ -27,6 +27,7 @@ Example:
 
 GET https://api.zippopotam.us/us/90210
 Project Structure
+
 src
 └── test
 └── java
@@ -39,6 +40,7 @@ src
 │
 └── utils
 └── TestData.java
+
 Framework Structure
 BaseTest
 
