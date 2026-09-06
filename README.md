@@ -72,13 +72,22 @@ Contains positive test scenarios for a valid country and postal code.
 The tests verify:
 
 HTTP status code
+
 Response content type
+
 Postal code returned in the response
+
 Country information
+
 Country abbreviation
+
 Presence of the places field
+
 Places list is not empty
+
 Place name exists and is not empty
+
+
 InvalidZipCodeApiTest
 
 Contains negative test scenarios for invalid and missing input values.
@@ -86,10 +95,15 @@ Contains negative test scenarios for invalid and missing input values.
 The tests cover:
 
 Invalid country
+
 Invalid postal code
+
 Invalid country and postal code
+
 Missing country
+
 Missing postal code
+
 Test Coverage
 
 The project currently contains 7 test cases.
@@ -106,34 +120,43 @@ Verify required response fields and returned postal code.
 TC02 - Verify places in response
 
 Verify the places list exists.
+
 Verify the list is not empty.
+
 Verify a place name exists and is not empty.
+
 Invalid Scenarios
 
 TC03 - Verify invalid country
 
 Send an invalid country code with a valid postal code.
+
 Expected status code: 404.
 
 TC04 - Verify invalid postal code
 
 Send a valid country with an invalid postal code.
+
 Expected status code: 404.
 
 TC05 - Verify invalid country and postal code
 
 Send both invalid country and postal code.
+
 Expected status code: 404.
 
 TC06 - Verify missing country
 
 Send a request without the country path parameter.
+
 Verify that the API returns a client error (4xx).
 
 TC07 - Verify missing postal code
 
 Send a request without the postal code path parameter.
+
 Verify that the API returns a client error (4xx).
+
 How to Run
 
 Make sure Java and Maven are installed and configured.
@@ -177,7 +200,9 @@ Expected Result
 When all tests pass successfully:
 
 Tests run: 7
+
 Failures: 0
+
 Errors: 0
 
 The exact Maven/TestNG output may vary depending on the environment.
