@@ -7,7 +7,7 @@ The project focuses on validating valid and invalid postal code requests, respon
 
 The goal is to demonstrate a simple, clean, and maintainable API automation approach suitable for a junior-level automation testing project.
 
-Technologies
+Technologies :
 
 Java 21
 
