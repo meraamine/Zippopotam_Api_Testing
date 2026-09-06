@@ -9,17 +9,17 @@ The goal is to demonstrate a simple, clean, and maintainable API automation appr
 
 Technologies :
 
-Java 21
+- Java 21
 
-Rest Assured 5.5.6
+- Rest Assured 5.5.6
 
-TestNG
+- TestNG 7.11.0
 
-Maven
+- Maven
 
-IntelliJ IDEA
+- IntelliJ IDEA
 
-API Under Test
+- API Under Test
 
 Base URL:
 
@@ -45,7 +45,6 @@ src
  
  │   └── BaseTest.java
 
- 
  │
  
  ├── tests
@@ -61,6 +60,7 @@ src
  └── TestData.java
 
 Framework Structure
+
 BaseTest
 
 BaseTest contains the common API configuration used by the test classes.
@@ -77,21 +77,21 @@ Contains positive test scenarios for a valid country and postal code.
 
 The tests verify:
 
-HTTP status code
+- HTTP status code
 
-Response content type
+- Response content type
 
-Postal code returned in the response
+- Postal code returned in the response
 
-Country information
+- Country information
 
-Country abbreviation
+- Country abbreviation
 
-Presence of the places field
+- Presence of the places field
 
-Places list is not empty
+- Places list is not empty
 
-Place name exists and is not empty
+- Place name exists and is not empty
 
 
 InvalidZipCodeApiTest
@@ -100,15 +100,15 @@ Contains negative test scenarios for invalid and missing input values.
 
 The tests cover:
 
-Invalid country
+- Invalid country
 
-Invalid postal code
+- Invalid postal code
 
-Invalid country and postal code
+- Invalid country and postal code
 
-Missing country
+- Missing country
 
-Missing postal code
+- Missing postal code
 
 Test Coverage
 
